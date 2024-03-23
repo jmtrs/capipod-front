@@ -36,7 +36,7 @@ const HomePage = () => {
       {visitedAlbums.length === 0 && (
         <Text textAlign='center'>No has visitado ningún álbum aún</Text>
       )}
-      <SimpleGrid columns={[1, null, 3]} spacing='20px' mb={10}>
+      <SimpleGrid columns={[1, null, 3]} spacing='20px' mb={10} mt={20}>
         {visitedAlbums.map(album => (
           <Box
             key={album.id}
@@ -59,10 +59,11 @@ const HomePage = () => {
             <Image
               src={album.thumbnailUrl}
               alt='thumbnail'
-              borderRadius='lg'
+              borderRadius='full'
               mb={4}
-              boxSize='100%'
+              width='70%'
               objectFit='cover'
+              mt={-24}
             />
             <Text fontWeight='bold'>{album.title}</Text>
           </Box>
