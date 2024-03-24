@@ -5,6 +5,8 @@ import theme from './theme'
 
 import HomePage from './pages/HomePage'
 import Header from './components/Header.jsx'
+import PodcastDetailsPage from './pages/PodcastDetailsPage';
+import EpisodeDetailsPage from './pages/EpisodeDetailsPage';
 import NotFoundPage from './pages/NotFoundPage.jsx'
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
         <AppLayout>
           <Routes>
             <Route index element={<HomePage />} />
+              <Route path="/podcast/:podcastId" element={<PodcastDetailsPage />} />
+              <Route path="/podcast/:podcastId/episode/:episodeId" element={<EpisodeDetailsPage />} />
             {/*<Route path='/user/:userId/albums/' element={<AlbumsPage />} />
             <Route
               path='/albums/:albumId/photos'

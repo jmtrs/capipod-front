@@ -4,7 +4,6 @@ import usePodcastStore from '../store/podcastStore';
 import { Link as RouterLink } from 'react-router-dom';
 import {
     Flex,
-    Box,
     Input,
     Text,
     Link,
@@ -21,24 +20,29 @@ import {SearchIcon} from "@chakra-ui/icons";
 
 
 const HomePage = () => {
-    const { podcasts, setPodcasts, lastFetched, setLastFetched } = usePodcastStore();
+    const { podcasts, setPodcasts } = usePodcastStore(state => ({ podcasts: state.podcasts, setPodcasts: state.setPodcasts }));
     const [filter, setFilter] = useState('');
     const bg = useColorModeValue('white', 'gray.800');
     const color = useColorModeValue('gray.800', 'white');
     const borderColor = useColorModeValue('gray.200', 'gray.600');
 
     useEffect(() => {
-        const fetchPodcasts = async () => {
+        const fetchAndSetPodcasts = async () => {
             const now = new Date();
+            const lastFetched = usePodcastStore.getState().lastFetched;
             if (!lastFetched || (now - new Date(lastFetched)) > 86400000) {
                 const fetchedPodcasts = await getTopPodcasts();
                 setPodcasts(fetchedPodcasts);
-                setLastFetched(now.toISOString());
+                usePodcastStore.setState({ lastFetched: now.toISOString() });
             }
         };
 
-        fetchPodcasts();
-    }, [lastFetched, setLastFetched, setPodcasts]);
+        if (podcasts.length === 0) {
+            fetchAndSetPodcasts();
+        }
+
+        console.log(podcasts)
+    }, [podcasts.length, setPodcasts]);
 
     const filteredPodcasts = podcasts.filter(podcast =>
         podcast.title.label.toLowerCase().includes(filter.toLowerCase()) ||
@@ -101,28 +105,30 @@ const HomePage = () => {
                         w='100%'
                         alignItems='center'
                         mx='auto'
-                        mb={{ base: '50px', md: '30px' }}
+                        mb={{ base: '20px' }}
                         height='100%'
+                        justifyContent={'center' }
                     >
-                        <Image
-                            src={podcast['im:image'][2].label}
-                            alt={podcast.title.label}
-                            borderRadius='full'
-                            boxSize='140px'
-                            objectFit='cover'
-                            position='absolute'
-                            top='-70px'
-                            left='50%'
-                            transform='translateX(-50%)'
-                            border='2px solid'
-                            borderColor={borderColor}
-                        />
-                        <Flex flex='1' direction='column' justify='center' align='center' textAlign='center' pt={10}>
-                            <Text fontWeight='bold' fontSize='lg'>{podcast['im:name'].label}</Text>
-                            <Text fontSize='md' color='gray.500'>Author: {podcast['im:artist'].label}</Text>
-                        </Flex>
+                        <Link as={RouterLink} to={`/podcast/${podcast.id.attributes['im:id']}`} style={{ textDecoration: 'none' }}>
+                            <Image
+                                src={podcast['im:image'][2].label}
+                                alt={podcast.title.label}
+                                borderRadius='full'
+                                boxSize='140px'
+                                objectFit='cover'
+                                position='absolute'
+                                top='-70px'
+                                left='50%'
+                                transform='translateX(-50%)'
+                                border='2px solid'
+                                borderColor={borderColor}
+                            />
+                            <Flex flex='1' direction='column' justify='center' align='center' textAlign='center' pt={10}>
+                                    <Text fontWeight='bold' fontSize='lg'>{podcast['im:name'].label}</Text>
+                                    <Text fontSize='md' color='gray.500'>Author: {podcast['im:artist'].label}</Text>
+                            </Flex>
+                        </Link>
                     </VStack>
-
                 ))}
             </SimpleGrid>
         </Center>

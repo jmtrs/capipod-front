@@ -8,7 +8,7 @@ const getTopPodcasts = async () => {
 };
 
 const getPodcastDetails = async (podcastId) => {
-    const response = await axios.get(`${BASE_URL}/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`);
+    const response = await axios.get(`${BASE_URL}/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode`);
     return response.data.results;
 };
 
