@@ -29,7 +29,11 @@ const usePodcastStore = create(persist(
             }
         },
         getPodcastDetails: (podcastId) => get().podcastDetails[podcastId]?.data,
-        findPodcast: (podcastId) => get().podcasts.find(podcast => podcast.id.attributes['im:id'] === podcastId)
+        findPodcast: (podcastId) => get().podcasts.find(podcast => podcast.id.attributes['im:id'] === podcastId),
+        getEpisodeDetails: (podcastId, episodeId) => {
+            const podcastDetails = get().podcastDetails[podcastId]?.data;
+            return podcastDetails?.find(episode => episode.trackId === episodeId);
+        }
     }),
     {
         name: 'podcast-storage',

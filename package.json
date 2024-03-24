@@ -25,6 +25,7 @@
     "@emotion/styled": "^11.11.0",
     "@jest/globals": "^29.7.0",
     "axios": "^1.6.7",
+    "dompurify": "^3.0.11",
     "framer-motion": "^11.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -72,6 +73,9 @@
     "testEnvironment": "jsdom"
   },
   "babel": {
-    "presets": ["@babel/preset-env", "@babel/preset-react"]
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   }
 }

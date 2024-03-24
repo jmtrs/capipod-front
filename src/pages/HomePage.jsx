@@ -40,8 +40,6 @@ const HomePage = () => {
         if (podcasts.length === 0) {
             fetchAndSetPodcasts();
         }
-
-        console.log(podcasts)
     }, [podcasts.length, setPodcasts]);
 
     const filteredPodcasts = podcasts.filter(podcast =>

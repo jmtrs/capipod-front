@@ -19,14 +19,7 @@ function App() {
             <Route index element={<HomePage />} />
               <Route path="/podcast/:podcastId" element={<PodcastDetailsPage />} />
               <Route path="/podcast/:podcastId/episode/:episodeId" element={<EpisodeDetailsPage />} />
-            {/*<Route path='/user/:userId/albums/' element={<AlbumsPage />} />
-            <Route
-              path='/albums/:albumId/photos'
-              element={<AlbumPhotosPage />}
-            />
-            <Route path='/user/:userId' element={<UserDetailsPage />} />
-            <Route path={'/user/:userId/todos'} element={<TodosPage />} />*/}
-            <Route path='*' element={<NotFoundPage />} />
+              <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </AppLayout>
       </Router>
