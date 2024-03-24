@@ -1,12 +1,15 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com'
+const BASE_URL = 'https://itunes.apple.com';
 
-const getUsers = () => axios.get(`${BASE_URL}/users`)
-const getUserDetails = userId => axios.get(`${BASE_URL}/users/${userId}`)
-const getUserAlbums = userId => axios.get(`${BASE_URL}/users/${userId}/albums`)
-const getAlbumPhotos = albumId =>
-  axios.get(`${BASE_URL}/albums/${albumId}/photos`)
-const getUserTodos = userId => axios.get(`${BASE_URL}/users/${userId}/todos`)
+const getTopPodcasts = async () => {
+    const response = await axios.get(`${BASE_URL}/us/rss/toppodcasts/limit=100/genre=1310/json`);
+    return response.data.feed.entry;
+};
 
-export { getUsers, getUserDetails, getUserAlbums, getAlbumPhotos, getUserTodos }
+const getPodcastDetails = async (podcastId) => {
+    const response = await axios.get(`${BASE_URL}/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`);
+    return response.data.results;
+};
+
+export { getTopPodcasts, getPodcastDetails}

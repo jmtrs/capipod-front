@@ -5,11 +5,7 @@ import theme from './theme'
 
 import HomePage from './pages/HomePage'
 import Header from './components/Header.jsx'
-import AlbumsPage from './pages/AlbumsPage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
-import AlbumPhotosPage from './pages/AlbumPhotosPage.jsx'
-import UserDetailsPage from './pages/UserDetailsPage.jsx'
-import TodosPage from './pages/TodosPage.jsx'
 
 function App() {
   return (
@@ -19,13 +15,13 @@ function App() {
         <AppLayout>
           <Routes>
             <Route index element={<HomePage />} />
-            <Route path='/user/:userId/albums/' element={<AlbumsPage />} />
+            {/*<Route path='/user/:userId/albums/' element={<AlbumsPage />} />
             <Route
               path='/albums/:albumId/photos'
               element={<AlbumPhotosPage />}
             />
             <Route path='/user/:userId' element={<UserDetailsPage />} />
-            <Route path={'/user/:userId/todos'} element={<TodosPage />} />
+            <Route path={'/user/:userId/todos'} element={<TodosPage />} />*/}
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </AppLayout>
