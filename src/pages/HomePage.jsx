@@ -1,107 +1,144 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
-  Box,
-  Container,
-  Heading,
-  SimpleGrid,
+  Flex,
+  Input,
   Text,
-  Wrap,
-  WrapItem,
+  Link,
   Image,
-  useColorModeValue
-} from '@chakra-ui/react'
-import useUserStore from '../store/userStore'
-import useVisitedAlbumsStore from '../store/visitedAlbumsStore'
+  SimpleGrid,
+  Center,
+  useColorModeValue,
+  Badge,
+  VStack,
+  InputLeftElement,
+  InputGroup,
+} from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
+
+import usePodcastStore from "../store/podcastStore";
+import Loading from "../components/Loading.jsx";
 
 const HomePage = () => {
-  const { users, isLoading, error, fetchUsers } = useUserStore()
-  const { visitedAlbums } = useVisitedAlbumsStore()
+  const { podcasts, fetchAndSetPodcasts, isLoading, error } = usePodcastStore();
+  const [filter, setFilter] = useState("");
+  const bg = useColorModeValue("white", "gray.800");
+  const color = useColorModeValue("gray.800", "white");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   useEffect(() => {
-    fetchUsers()
-  }, [fetchUsers])
+    fetchAndSetPodcasts();
+  }, [fetchAndSetPodcasts]);
 
-  const bg = useColorModeValue('white', 'gray.800')
-  const color = useColorModeValue('gray.800', 'white')
+  if (isLoading) return <Loading />;
+  if (error) return <Center>Error: {error}</Center>;
+
+  const filteredPodcasts = podcasts.filter(
+    (podcast) =>
+      podcast.title.label.toLowerCase().includes(filter.toLowerCase()) ||
+      podcast["im:artist"].label.toLowerCase().includes(filter.toLowerCase()),
+  );
 
   return (
-    <Container maxW='container.xlg' centerContent px={4}>
-      <Heading as='h1' mb={8} textAlign='center'>
-        Bienvenido a CapiPod
-      </Heading>
-      <Heading as='h2' size='lg' mb={5}>
-        Álbumes Recién Visitados
-      </Heading>
-      {visitedAlbums.length === 0 && (
-        <Text textAlign='center'>No has visitado ningún álbum aún</Text>
-      )}
-      <SimpleGrid columns={[1, null, 3]} spacing='20px' mb={10} mt={20}>
-        {visitedAlbums.map(album => (
-          <Box
-            key={album.id}
-            boxShadow='xl'
-            p='6'
-            rounded='md'
+    <Center flexDirection="column" px={5} mt={20}>
+      <Flex
+        mt={6}
+        mb={28}
+        justify="center"
+        align="center"
+        direction={{ base: "column", md: "row" }}
+        w="full"
+        maxW="md"
+        mx="auto"
+      >
+        <InputGroup size="lg" mb={{ base: 4, md: 0 }}>
+          <InputLeftElement
+            pointerEvents="none"
+            children={<SearchIcon color="gray.300" />}
+          />
+          <Input
+            placeholder="Filter podcasts..."
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            flex="1"
+            borderRadius="full"
+            borderColor="gray.200"
+            _hover={{ borderColor: "teal.400" }}
+            _focus={{ borderColor: "teal.500" }}
+          />
+        </InputGroup>
+        <Badge
+          colorScheme="teal"
+          px={4}
+          py={1}
+          borderRadius="full"
+          fontSize="1em"
+          variant="solid"
+          ml={{ md: 4 }}
+          alignSelf="center"
+        >
+          {filteredPodcasts.length} podcasts
+        </Badge>
+      </Flex>
+      <SimpleGrid columns={[1, 2, 4]} spacingY="100px" spacingX="20px">
+        {filteredPodcasts.map((podcast, index) => (
+          <VStack
+            key={index}
+            boxShadow="xl"
+            px={6}
+            py={6}
+            rounded="md"
             bg={bg}
             color={color}
-            as={Link}
-            to={`/albums/${album.albumId}/photos`}
-            maxW='300px'
-            width='100%'
-            display='flex'
-            flexDirection='column'
-            alignItems='center'
-            textAlign='center'
-            justifyContent='center'
-            mx='auto'
+            position="relative"
+            maxW="300px"
+            w="100%"
+            alignItems="center"
+            mx="auto"
+            mb={{ base: "20px" }}
+            height="100%"
+            justifyContent={"center"}
           >
-            <Image
-              src={album.thumbnailUrl}
-              alt='thumbnail'
-              borderRadius='full'
-              mb={4}
-              width='70%'
-              objectFit='cover'
-              mt={-24}
-            />
-            <Text fontWeight='bold'>{album.title}</Text>
-          </Box>
+            <Link
+              as={RouterLink}
+              to={`/podcast/${podcast.id.attributes["im:id"]}`}
+              style={{ textDecoration: "none" }}
+            >
+              <Image
+                src={podcast["im:image"][2].label}
+                alt={podcast.title.label}
+                borderRadius="full"
+                boxSize="140px"
+                objectFit="cover"
+                position="absolute"
+                top="-70px"
+                left="50%"
+                transform="translateX(-50%)"
+                border="2px solid"
+                borderColor={borderColor}
+                bg={bg}
+              />
+              <Flex
+                flex="1"
+                direction="column"
+                justify="center"
+                align="center"
+                textAlign="center"
+                pt={10}
+              >
+                <Text fontWeight="bold" fontSize="lg">
+                  {podcast["im:name"].label}
+                </Text>
+                <Text fontSize="md" color="gray.500">
+                  Author: {podcast["im:artist"].label}
+                </Text>
+              </Flex>
+            </Link>
+          </VStack>
         ))}
       </SimpleGrid>
+    </Center>
+  );
+};
 
-      {isLoading ? (
-        <Text>Cargando...</Text>
-      ) : error ? (
-        <Text color='red.500'>{error}</Text>
-      ) : (
-        <>
-          <Heading as='h2' size='lg' mb={5}>
-            Usuarios
-          </Heading>
-          <Wrap spacing='30px' justify='center'>
-            {users.map(user => (
-              <WrapItem
-                key={user.id}
-                boxShadow='xl'
-                p='6'
-                rounded='md'
-                bg={bg}
-                color={color}
-                as={Link}
-                to={`/user/${user.id}`}
-              >
-                <Box>
-                  <Heading fontSize='xl'>{user.name}</Heading>
-                  <Text mt={4}>{user.email}</Text>
-                </Box>
-              </WrapItem>
-            ))}
-          </Wrap>
-        </>
-      )}
-    </Container>
-  )
-}
-
-export default HomePage
+export default HomePage;
