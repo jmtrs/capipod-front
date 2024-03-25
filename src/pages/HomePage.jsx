@@ -75,7 +75,7 @@ const HomePage = () => {
           fontSize="1em"
           variant="solid"
           ml={{ md: 4 }}
-          alignSelf="center" // This ensures the badge is vertically centered in Flex
+          alignSelf="center"
         >
           {filteredPodcasts.length} podcasts
         </Badge>
