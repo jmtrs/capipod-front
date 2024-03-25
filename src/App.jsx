@@ -1,13 +1,13 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { ChakraProvider } from '@chakra-ui/react'
-import theme from './theme'
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "./theme";
 
-import HomePage from './pages/HomePage'
-import Header from './components/Header.jsx'
-import PodcastDetailsPage from './pages/PodcastDetailsPage';
-import EpisodeDetailsPage from './pages/EpisodeDetailsPage';
-import NotFoundPage from './pages/NotFoundPage.jsx'
+import HomePage from "./pages/HomePage";
+import Header from "./components/Header.jsx";
+import PodcastDetailsPage from "./pages/PodcastDetailsPage";
+import EpisodeDetailsPage from "./pages/EpisodeDetailsPage";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
 
 function App() {
   return (
@@ -17,28 +17,34 @@ function App() {
         <AppLayout>
           <Routes>
             <Route index element={<HomePage />} />
-              <Route path="/podcast/:podcastId" element={<PodcastDetailsPage />} />
-              <Route path="/podcast/:podcastId/episode/:episodeId" element={<EpisodeDetailsPage />} />
-              <Route path='*' element={<NotFoundPage />} />
+            <Route
+              path="/podcast/:podcastId"
+              element={<PodcastDetailsPage />}
+            />
+            <Route
+              path="/podcast/:podcastId/episode/:episodeId"
+              element={<EpisodeDetailsPage />}
+            />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AppLayout>
       </Router>
     </ChakraProvider>
-  )
+  );
 }
 
 function AppLayout({ children }) {
   return (
     <div
       style={{
-        margin: '90px auto',
-        marginX: 'auto',
-        width: '100%'
+        margin: "90px auto",
+        marginX: "auto",
+        width: "100%",
       }}
     >
       {children}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
