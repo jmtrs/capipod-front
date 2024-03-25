@@ -1,33 +1,61 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getPodcastDetails } from "../services/apiService";
+import {getPodcastDetails, getTopPodcasts} from "../services/apiService";
 
+const day = 86400000;
 const usePodcastStore = create(persist(
     (set, get) => ({
         podcasts: [],
         podcastDetails: {},
         lastFetched: null,
-
-        setPodcasts: (podcasts) => set({ podcasts }),
-        setPodcastDetails: (id, details) => set(state => ({
-            podcastDetails: { ...state.podcastDetails, [id]: details }
-        })),
-        fetchPodcastDetails: async (podcastId) => {
-            const now = new Date();
-            const lastFetched = get().podcastDetails[podcastId]?.lastFetched;
-            if (!lastFetched || now - new Date(lastFetched) > 86400000) {
-                const details = await getPodcastDetails(podcastId);
-                set(state => ({
-                    podcastDetails: {
-                        ...state.podcastDetails,
-                        [podcastId]: {
-                            lastFetched: now.toISOString(),
-                            data: details
-                        }
-                    }
-                }));
+        isLoading: false,
+        error: null,
+        startLoading: () => set({ isLoading: true, error: null }),
+        setError: (error) => set({ isLoading: false, error }),
+        fetchAndSetPodcasts: async () => {
+            try {
+                set({ isLoading: true });
+                const now = new Date();
+                const lastFetched = get().lastFetched;
+                if (!lastFetched || (now - new Date(lastFetched)) > day) {
+                    const podcasts = await getTopPodcasts();
+                    set({ podcasts, lastFetched: now.toISOString(), isLoading: false });
+                } else {
+                    set({ isLoading: false });
+                }
+            } catch (error) {
+                set({ error: error.message, isLoading: false });
             }
         },
+        fetchPodcastDetails: async (podcastId) => {
+            try {
+                set({ isLoading: true });
+                const now = new Date();
+                const lastFetched = get().podcastDetails[podcastId]?.lastFetched;
+                if (!lastFetched || now - new Date(lastFetched) > day) {
+                    const details = await getPodcastDetails(podcastId);
+                    set(state => ({
+                        podcastDetails: {
+                            ...state.podcastDetails,
+                            [podcastId]: {
+                                lastFetched: now.toISOString(),
+                                data: details
+                            }
+                        },
+                        isLoading: false
+                    }));
+                } else {
+                    set({ isLoading: false });
+                }
+            } catch (error) {
+                set({ isLoading: false, error: error.toString() });
+            }
+        },
+        setPodcasts: (podcasts) => set({ podcasts, isLoading: false }),
+        setPodcastDetails: (id, details) => set(state => ({
+            podcastDetails: { ...state.podcastDetails, [id]: { ...details, lastFetched: new Date().toISOString() } },
+            isLoading: false
+        })),
         getPodcastDetails: (podcastId) => get().podcastDetails[podcastId]?.data,
         findPodcast: (podcastId) => get().podcasts.find(podcast => podcast.id.attributes['im:id'] === podcastId),
         getEpisodeDetails: (podcastId, episodeId) => {

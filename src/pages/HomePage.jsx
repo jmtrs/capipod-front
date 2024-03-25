@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getTopPodcasts } from '../services/apiService';
-import usePodcastStore from '../store/podcastStore';
 import { Link as RouterLink } from 'react-router-dom';
 import {
     Flex,
@@ -18,29 +16,24 @@ import {
 } from '@chakra-ui/react';
 import {SearchIcon} from "@chakra-ui/icons";
 
+import usePodcastStore from '../store/podcastStore';
+import Loading from "../components/Loading.jsx";
+
 
 const HomePage = () => {
-    const { podcasts, setPodcasts } = usePodcastStore(state => ({ podcasts: state.podcasts, setPodcasts: state.setPodcasts }));
+    const { podcasts, fetchAndSetPodcasts, isLoading, error } = usePodcastStore();
     const [filter, setFilter] = useState('');
     const bg = useColorModeValue('white', 'gray.800');
     const color = useColorModeValue('gray.800', 'white');
     const borderColor = useColorModeValue('gray.200', 'gray.600');
 
     useEffect(() => {
-        const fetchAndSetPodcasts = async () => {
-            const now = new Date();
-            const lastFetched = usePodcastStore.getState().lastFetched;
-            if (!lastFetched || (now - new Date(lastFetched)) > 86400000) {
-                const fetchedPodcasts = await getTopPodcasts();
-                setPodcasts(fetchedPodcasts);
-                usePodcastStore.setState({ lastFetched: now.toISOString() });
-            }
-        };
+        fetchAndSetPodcasts();
+    }, [fetchAndSetPodcasts]);
 
-        if (podcasts.length === 0) {
-            fetchAndSetPodcasts();
-        }
-    }, [podcasts.length, setPodcasts]);
+    if (isLoading) return <Loading />;
+    if (error) return <Center>Error: {error}</Center>;
+
 
     const filteredPodcasts = podcasts.filter(podcast =>
         podcast.title.label.toLowerCase().includes(filter.toLowerCase()) ||
