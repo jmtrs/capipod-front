@@ -1,7 +1,7 @@
 {
   "name": "podcasts-front",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "preview": "vite preview",
-    "docker:build": "docker build -t next-social-front .",
-    "docker:run": "docker run -p 3000:3000 next-social-front",
+    "docker:build": "docker build -t podcasts-front .",
+    "docker:run": "docker run -p 3000:3000 podcasts-front",
     "docker:stop": "docker stop $(docker ps -aq)",
     "docker:clean": "docker system prune --all --volumes",
     "prepare": "husky"

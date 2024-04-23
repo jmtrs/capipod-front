@@ -1,6 +1,6 @@
-# NextSocial Frontend
+# Podcasts Frontend
 
-NextSocial es un prototipo de red social. Este proyecto se centra en la implementación del frontend, proporcionando una interfaz de usuario para interactuar con datos de usuarios, álbumes, fotos y tareas (TODOs) a través de APIs externas.
+Podcasts es un prototipo de aplicación para Podcasts. Este proyecto se centra en la implementación del frontend, proporcionando una interfaz de usuario para interactuar con datos de Podcasts a través de APIs externas.
 
 ## Tecnologías Utilizadas
 
@@ -30,8 +30,8 @@ Asegúrate de tener instalado Node.js (recomendamos la versión 14.x o superior)
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/jmtrs/next-social-front.git
-cd next-social-front
+git clone https://github.com/jmtrs/podcasts-front.git
+cd podcasts-front
 ```
 
 2. Instala las dependencias:
@@ -46,7 +46,7 @@ npm install
 npm run dev
 ```
 
-4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
+4. Abre [http://127.0.0.1:5173](http://127.0.0.1:5173) en tu navegador para ver la aplicación.
 5. ¡Listo! Ahora puedes empezar a interactuar con la aplicación.
 
 ## Pruebas
@@ -62,8 +62,8 @@ npm run test
 Si prefieres ejecutar la aplicación en un contenedor Docker, puedes utilizar el siguiente comando:
 
 ```bash
-docker build -t next-social-front .
-docker run -p 3000:3000 next-social-front
+docker build -t podcasts-front .
+docker run -p 3000:3000 podcasts-front
 ```
 
 ## Licencia
