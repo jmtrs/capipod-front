@@ -34,7 +34,7 @@ const Header = () => {
         alignItems="center"
       >
         <Text fontSize="xl" fontWeight="bold" as={RouterLink} to="/">
-          CapiPod
+          Podcasts
         </Text>
         <Box display="flex" alignItems="center">
           <Link

@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
-  Flex,
-  Input,
-  Text,
-  Link,
-  Image,
-  SimpleGrid,
-  Center,
-  useColorModeValue,
-  Badge,
-  VStack,
-  InputLeftElement,
-  InputGroup,
+  Flex, Input, Text, Link, Image, SimpleGrid, Center, useColorModeValue, Badge, VStack, InputLeftElement, InputGroup
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
@@ -33,11 +22,10 @@ const HomePage = () => {
   if (isLoading) return <Loading />;
   if (error) return <Center>Error: {error}</Center>;
 
-  const filteredPodcasts = podcasts.filter(
-    (podcast) =>
-      podcast.title.label.toLowerCase().includes(filter.toLowerCase()) ||
-      podcast["im:artist"].label.toLowerCase().includes(filter.toLowerCase()),
-  );
+  const filteredPodcasts =  podcasts.filter(podcast =>
+      podcast.name.toLowerCase().includes(filter.toLowerCase()) ||
+      podcast.artist.toLowerCase().includes(filter.toLowerCase())
+    );
 
   return (
     <Center flexDirection="column" px={5} mt={20}>
@@ -101,12 +89,12 @@ const HomePage = () => {
           >
             <Link
               as={RouterLink}
-              to={`/podcast/${podcast.id.attributes["im:id"]}`}
+              to={`/podcast/${podcast.id}`}
               style={{ textDecoration: "none" }}
             >
               <Image
-                src={podcast["im:image"][2].label}
-                alt={podcast.title.label}
+                src={podcast.images[2].url} // Asumiendo que quieres la imagen más grande disponible
+                alt={podcast.name}
                 borderRadius="full"
                 boxSize="140px"
                 objectFit="cover"
@@ -127,10 +115,10 @@ const HomePage = () => {
                 pt={10}
               >
                 <Text fontWeight="bold" fontSize="lg">
-                  {podcast["im:name"].label}
+                  {podcast.name}
                 </Text>
                 <Text fontSize="md" color="gray.500">
-                  Author: {podcast["im:artist"].label}
+                  Author: {podcast.artist}
                 </Text>
               </Flex>
             </Link>
