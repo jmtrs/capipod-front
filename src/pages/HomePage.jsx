@@ -20,6 +20,7 @@ const HomePage = () => {
   }, [fetchAndSetPodcasts]);
 
   if (isLoading) return <Loading />;
+  
   if (error) return <Center>Error: {error}</Center>;
 
   const filteredPodcasts =  podcasts.filter(podcast =>
