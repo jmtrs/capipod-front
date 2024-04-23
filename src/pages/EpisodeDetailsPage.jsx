@@ -53,9 +53,9 @@ const EpisodeDetailsPage = () => {
         <RouterLink to={`/podcast/${podcastId}`}>
           <PodcastSummaryBox
             artworkUrl={artworkUrl600}
-            title={podcast["im:name"].label}
-            artist={podcast["im:artist"].label}
-            summary={podcast.summary.label}
+            title={podcast.name}
+            artist={podcast.artist}
+            summary={podcast.summary}
           />
         </RouterLink>
 

@@ -11,37 +11,64 @@ jest.mock("../../src/store/podcastStore", () => ({
   default: jest.fn().mockReturnValue({
     podcasts: [
       {
-        id: { attributes: { "im:id": "123" } },
-        title: { label: "Test Podcast 1" },
-        "im:artist": { label: "Artist 1" },
-        "im:image": [
-          { label: "test-image-url-1.jpg" },
-          { label: "test-image-url-1.jpg" },
-          { label: "test-image-url-1.jpg" },
+        id: "123",
+        title: "Test Podcast 1",
+        artist: "Artist 1",
+        images: [
+          { 
+            height: "170",
+            url: "test-image-url-1.jpg" 
+          },
+          { 
+            height: "170",
+            url: "test-image-url-1.jpg" 
+          },
+          { 
+            height: "170",
+            url: "test-image-url-1.jpg" 
+          }
         ],
-        "im:name": "Test Podcast 1",
+        name: "Test Podcast 1",
       },
       {
-        id: { attributes: { "im:id": "456" } },
-        title: { label: "Test Podcast 2" },
-        "im:artist": { label: "Artist 2" },
-        "im:image": [
-          { label: "test-image-url-2.jpg" },
-          { label: "test-image-url-2.jpg" },
-          { label: "test-image-url-2.jpg" },
+        id: "456",
+        title: "Test Podcast 2",
+        artist: "Artist 2",
+        images: [
+          { 
+            height: "170",
+            url: "test-image-url-2.jpg" 
+          },
+          { 
+            height: "170",
+            url: "test-image-url-2.jpg" 
+          },
+          { 
+            height: "170",
+            url: "test-image-url-2.jpg" 
+          }
         ],
-        "im:name": "Test Podcast 2",
+        name: "Test Podcast 2",
       },
       {
-        id: { attributes: { "im:id": "789" } },
-        title: { label: "Test Podcast 3" },
-        "im:artist": { label: "Artist 3" },
-        "im:image": [
-          { label: "test-image-url-3.jpg" },
-          { label: "test-image-url-3.jpg" },
-          { label: "test-image-url-3.jpg" },
+        id: "789",
+        title: "Test Podcast 3",
+        artist: "Artist 3",
+        images: [
+          { 
+            height: "170",
+            url: "test-image-url-3.jpg" 
+          },
+          { 
+            height: "170",
+            url: "test-image-url-3.jpg" 
+          },
+          { 
+            height: "170",
+            url: "test-image-url-3.jpg" 
+          }
         ],
-        "im:name": "Test Podcast 3",
+        name: "Test Podcast 3",
       },
     ],
     fetchAndSetPodcasts: jest.fn(),

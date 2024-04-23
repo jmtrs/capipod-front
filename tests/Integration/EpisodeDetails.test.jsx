@@ -18,9 +18,9 @@ jest.mock("../../src/store/podcastStore", () => ({
       previewUrl: "test-audio-url.mp3",
     }),
     findPodcast: jest.fn().mockReturnValue({
-      "im:name": { label: "Test Podcast" },
-      "im:artist": { label: "Test Artist" },
-      summary: { label: "Test Summary" },
+      name: "Test Podcast",
+      artist: "Test Artist",
+      summary: "Test Summary",
     }),
   }),
 }));

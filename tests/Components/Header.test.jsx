@@ -13,7 +13,7 @@ describe('Header', () => {
       </BrowserRouter>
     )
 
-    expect(screen.getByText('CapiPod')).toBeInTheDocument()
+    expect(screen.getByText('Podcasts')).toBeInTheDocument()
 
     expect(screen.getByText('Inicio')).toBeInTheDocument()
   })

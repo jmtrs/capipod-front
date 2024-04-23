@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getPodcastDetails, getTopPodcasts } from "../services/apiService";
+import { Podcast } from "../entities/Podcast"
 
 const day = 86400000;
 
@@ -20,7 +21,8 @@ const usePodcastStore = create(
           const now = new Date();
           const lastFetched = get().lastFetched;
           if (!lastFetched || now - new Date(lastFetched) > day) {
-            const podcasts = await getTopPodcasts();
+            const response = await getTopPodcasts(); 
+            const podcasts = response.map(entry => Podcast(entry));
             set({ podcasts, lastFetched: now.toISOString(), isLoading: false });
           } else {
             set({ isLoading: false });
@@ -65,7 +67,7 @@ const usePodcastStore = create(
       getPodcastDetails: (podcastId) => get().podcastDetails[podcastId]?.data,
       findPodcast: (podcastId) =>
         get().podcasts.find(
-          (podcast) => podcast.id.attributes["im:id"] === podcastId,
+          (podcast) => podcast.id === podcastId,
         ),
       getEpisodeDetails: (podcastId, episodeId) => {
         const podcastDetails = get().podcastDetails[podcastId]?.data;
