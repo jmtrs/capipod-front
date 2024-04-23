@@ -2,6 +2,18 @@
 
 Podcasts es un prototipo de aplicación para Podcasts. Este proyecto se centra en la implementación del frontend, proporcionando una interfaz de usuario para interactuar con datos de Podcasts a través de APIs externas.
 
+## IMPORTANTE
+
+Para que el cors funcione acceder a https://cors-anywhere.herokuapp.com/corsdemo y pulsar en Request temporary access to the demo server, despues levantar el front. 
+
+Esta opción tiene un rendimiento mejor que el Allorigins que se propone en la prueba.
+
+Solo he mapeado una de las entidades (los podcasts) ya que para los episodios el orden de los datos con un primer elemento que es distinto del resto no me parece una buena aproximación, lo suyo sería tener una llamada aparte para los datos de los episodios o una propiedad añadida en la misma llamada. Se entiende que sé hacerlo con el mapeo de los podcasts.
+
+El store está todo junto por descisión propia, se puede separar, pero para una prueba como esta considero que es más que suficiente.
+
+Me he tomado algunas libertades a nivel de diseño que creo que mejoran la experiencia de usuario y muestran más sobre lo que puedo llegar a hacer, pero a su vez conservan la esencia inicial. 
+
 ## Tecnologías Utilizadas
 
 - **React**: Utilizado para construir la interfaz de usuario con componentes reutilizables.
