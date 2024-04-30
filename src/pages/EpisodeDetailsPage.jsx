@@ -62,6 +62,7 @@ const EpisodeDetailsPage = () => {
         <VStack
           bg={bg}
           p={5}
+          boxShadow="md"
           borderRadius="md"
           flex="1"
           align="stretch"

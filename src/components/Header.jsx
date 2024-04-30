@@ -7,17 +7,22 @@ import {
   IconButton,
   useColorMode,
   useColorModeValue,
-  Icon,
-  Progress,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaSun, FaMoon } from "react-icons/fa";
 import usePodcastStore from "../store/podcastStore.js";
 
+/**
+ * Header component that displays the navigation bar with a dark/light mode toggle.
+ * It shows a loading indicator if data is currently being fetched.
+ *
+ * @returns {JSX.Element} The header component with navigation and mode toggle.
+ */
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("whiteAlpha.700", "blackAlpha.800");
   const textColor = useColorModeValue("gray.800", "white");
+  const iconBg = useColorModeValue("gray", "blue");
   const isLoading = usePodcastStore((state) => state.isLoading);
 
   return (
@@ -32,11 +37,35 @@ const Header = () => {
         p={4}
         justifyContent="space-between"
         alignItems="center"
+        boxShadow="md"
       >
         <Text fontSize="xl" fontWeight="bold" as={RouterLink} to="/">
           Podcasts
         </Text>
         <Box display="flex" alignItems="center">
+          {isLoading && (
+            <Box
+              position="relative"
+              mr={3}
+              borderRadius="full"
+              w="10px"
+              h="10px"
+              bg="blue.500"
+              css={{
+                animation: "pulse 1.5s infinite cubic-bezier(0.66, 0, 0, 1)",
+                "@keyframes pulse": {
+                  "0%, 100%": {
+                    opacity: 0,
+                    transform: "scale(0.5)",
+                  },
+                  "50%": {
+                    opacity: 1,
+                    transform: "scale(1.2)",
+                  },
+                },
+              }}
+            />
+          )}
           <Link
             as={RouterLink}
             to="/"
@@ -51,16 +80,10 @@ const Header = () => {
             icon={colorMode === "light" ? <FaMoon /> : <FaSun />}
             onClick={toggleColorMode}
             ml={4}
-            colorScheme={useColorModeValue("purple", "orange")}
+            colorScheme={iconBg}
           />
         </Box>
       </Flex>
-      <Progress
-        size="xs"
-        isIndeterminate
-        colorScheme="teal"
-        visibility={isLoading ? "visible" : "hidden"}
-      />
     </Box>
   );
 };

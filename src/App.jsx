@@ -1,13 +1,9 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
-
-import HomePage from "./pages/HomePage";
 import Header from "./components/Header.jsx";
-import PodcastDetailsPage from "./pages/PodcastDetailsPage";
-import EpisodeDetailsPage from "./pages/EpisodeDetailsPage";
-import NotFoundPage from "./pages/NotFoundPage.jsx";
+import AppRoutes from "./routes/AppRoutes.jsx"
 
 function App() {
   return (
@@ -15,18 +11,7 @@ function App() {
       <Router>
         <Header />
         <AppLayout>
-          <Routes>
-            <Route index element={<HomePage />} />
-            <Route
-              path="/podcast/:podcastId"
-              element={<PodcastDetailsPage />}
-            />
-            <Route
-              path="/podcast/:podcastId/episode/:episodeId"
-              element={<EpisodeDetailsPage />}
-            />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          <AppRoutes />
         </AppLayout>
       </Router>
     </ChakraProvider>

@@ -1,7 +1,18 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
-  Flex, Input, Text, Link, Image, SimpleGrid, Center, useColorModeValue, Badge, VStack, InputLeftElement, InputGroup
+  Flex,
+  Input,
+  Text,
+  Link,
+  Image,
+  SimpleGrid,
+  Center,
+  useColorModeValue,
+  Badge,
+  VStack,
+  InputLeftElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
@@ -20,60 +31,63 @@ const HomePage = () => {
   }, [fetchAndSetPodcasts]);
 
   if (isLoading) return <Loading />;
-  
+
   if (error) return <Center>Error: {error}</Center>;
 
-  const filteredPodcasts =  podcasts.filter(podcast =>
+  const filteredPodcasts = podcasts.filter(
+    (podcast) =>
       podcast.name.toLowerCase().includes(filter.toLowerCase()) ||
       podcast.artist.toLowerCase().includes(filter.toLowerCase())
-    );
+  );
 
   return (
-    <Center flexDirection="column" px={5} mt={20}>
+    <Flex flexDirection="column" px={32} mt={20} w="full">
       <Flex
         mt={6}
         mb={28}
-        justify="center"
+        justify="flex-end"
         align="center"
-        direction={{ base: "column", md: "row" }}
         w="full"
-        maxW="md"
-        mx="auto"
+        px={{ base: 4, lg: 0 }}
       >
-        <InputGroup size="lg" mb={{ base: 4, md: 0 }}>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<SearchIcon color="gray.300" />}
-          />
-          <Input
-            placeholder="Filter podcasts..."
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            flex="1"
-            borderRadius="full"
-            borderColor="gray.200"
-            _hover={{ borderColor: "teal.400" }}
-            _focus={{ borderColor: "teal.500" }}
-          />
-        </InputGroup>
-        <Badge
-          colorScheme="teal"
-          px={4}
-          py={1}
-          borderRadius="full"
-          fontSize="1em"
-          variant="solid"
-          ml={{ md: 4 }}
-          alignSelf="center"
-        >
-          {filteredPodcasts.length} podcasts
-        </Badge>
+        <Flex align="center">
+          <Badge
+            colorScheme="blue"
+            px={3}
+            py={1}
+            mx={2}
+            borderRadius="md"
+            fontSize="1.3em"
+            variant="solid"
+          >
+            {filteredPodcasts.length}
+          </Badge>
+          <InputGroup size="md">
+            <InputLeftElement
+              pointerEvents="none"
+              children={<SearchIcon color="gray.300" />}
+            />
+            <Input
+              placeholder="Filter podcasts..."
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              borderRadius="md"
+              borderColor="gray.200"
+              _hover={{ borderColor: "blue.400" }}
+              _focus={{
+                borderColor: "blue.500",
+                boxShadow: "0 0 0 1px blue.500",
+              }}
+            />
+          </InputGroup>
+        </Flex>
       </Flex>
+
       <SimpleGrid columns={[1, 2, 4]} spacingY="100px" spacingX="20px">
         {filteredPodcasts.map((podcast, index) => (
           <VStack
             key={index}
-            boxShadow="xl"
+            boxShadow="md"
             px={6}
             py={6}
             rounded="md"
@@ -126,7 +140,7 @@ const HomePage = () => {
           </VStack>
         ))}
       </SimpleGrid>
-    </Center>
+    </Flex>
   );
 };
 

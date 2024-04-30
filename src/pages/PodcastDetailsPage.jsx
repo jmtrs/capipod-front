@@ -4,11 +4,15 @@ import {
   Box,
   Flex,
   Heading,
-  Image,
-  Text,
   Center,
   useColorModeValue,
   Container,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
 } from "@chakra-ui/react";
 
 import usePodcastStore from "../store/podcastStore";
@@ -68,45 +72,64 @@ const PodcastDetailsPage = () => {
             artworkUrl={artworkUrl600}
             title={trackName}
             artist={artistName}
-            summary={podcast.summary.label}
+            summary={podcast.summary}
           />
         </RouterLink>
         <Box
           flex="1"
           borderRadius="md"
           p={2}
-          pt={6}
+          pt={2}
           width="full"
           overflowX="auto"
           maxW={{ base: "100%", md: "calc(100% - 400px)" }}
         >
-          <Heading size="md" mb={4} textAlign="center">
+          <Heading
+            boxShadow="md"
+            borderRadius="md"
+            bg={bg}
+            size="md"
+            mb={4}
+            textAlign="left"
+            p={2}
+          >
             Episodes: {episodes.length}
           </Heading>
-          <Flex direction="column" gap="4">
-            {episodes.map((episode, index) => (
-              <RouterLink
-                to={`/podcast/${podcastId}/episode/${episode.trackId}`}
-                key={index}
-              >
-                <Box p="4" borderRadius="lg" overflow="hidden" bg={bg}>
-                  <Flex justifyContent="space-between" align="center">
-                    <Box flex="1">
-                      <Text fontWeight="bold">{episode.trackName}</Text>
-                      <Text fontSize="sm">
-                        {new Date(episode.releaseDate).toLocaleDateString()}
-                      </Text>
-                    </Box>
-                    <Text ml={2}>
-                      {episode.trackTimeMillis
-                        ? `${(episode.trackTimeMillis / 60000).toFixed(0)} min`
-                        : "N/A"}
-                    </Text>
-                  </Flex>
-                </Box>
-              </RouterLink>
-            ))}
-          </Flex>
+          <Box
+            boxShadow="md"
+            borderRadius="md"
+            bg={bg}
+            p={{ base: 0, md: 3 }}
+          >
+            <Table
+
+              variant="striped"
+              size="sm"
+            >
+              <Thead>
+                <Tr>
+                  <Th>Title</Th>
+                  <Th>Date</Th>
+                  <Th isNumeric>Duration</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {episodes.map((episode, index) => (
+                  <Tr key={index}>
+                    <Td>
+                      <RouterLink to={`/podcast/${podcastId}/episode/${episode.trackId}`}>
+                        {episode.trackName}
+                      </RouterLink>
+                    </Td>
+                    <Td>{new Date(episode.releaseDate).toLocaleDateString()}</Td>
+                    <Td isNumeric>
+                      {episode.trackTimeMillis ? `${(episode.trackTimeMillis / 60000).toFixed(0)} min` : "N/A"}
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
         </Box>
       </Flex>
     </Container>
