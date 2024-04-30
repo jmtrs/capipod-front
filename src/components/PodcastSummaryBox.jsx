@@ -12,6 +12,7 @@ const PodcastSummaryBox = ({ artworkUrl, title, artist, summary }) => {
       p={5}
       position={{ base: "static", md: "sticky" }}
       top="5rem"
+      boxShadow="md"
       alignSelf="flex-start"
     >
       <Image

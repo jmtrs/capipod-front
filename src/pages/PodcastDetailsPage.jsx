@@ -89,7 +89,7 @@ const PodcastDetailsPage = () => {
                 to={`/podcast/${podcastId}/episode/${episode.trackId}`}
                 key={index}
               >
-                <Box p="4" borderRadius="lg" overflow="hidden" bg={bg}>
+                <Box p="4" borderRadius="lg" overflow="hidden" bg={bg} boxShadow="md">
                   <Flex justifyContent="space-between" align="center">
                     <Box flex="1">
                       <Text fontWeight="bold">{episode.trackName}</Text>
