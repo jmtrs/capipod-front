@@ -1,7 +1,18 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
-  Flex, Input, Text, Link, Image, SimpleGrid, Center, useColorModeValue, Badge, VStack, InputLeftElement, InputGroup
+  Flex,
+  Input,
+  Text,
+  Link,
+  Image,
+  SimpleGrid,
+  Center,
+  useColorModeValue,
+  Badge,
+  VStack,
+  InputLeftElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
@@ -23,13 +34,14 @@ const HomePage = () => {
 
   if (error) return <Center>Error: {error}</Center>;
 
-  const filteredPodcasts = podcasts.filter(podcast =>
-    podcast.name.toLowerCase().includes(filter.toLowerCase()) ||
-    podcast.artist.toLowerCase().includes(filter.toLowerCase())
+  const filteredPodcasts = podcasts.filter(
+    (podcast) =>
+      podcast.name.toLowerCase().includes(filter.toLowerCase()) ||
+      podcast.artist.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
-    <Center flexDirection="column" px={5} mt={20} w="full">
+    <Flex flexDirection="column" px={32} mt={20} w="full">
       <Flex
         mt={6}
         mb={28}
@@ -62,7 +74,10 @@ const HomePage = () => {
               borderRadius="md"
               borderColor="gray.200"
               _hover={{ borderColor: "blue.400" }}
-              _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
+              _focus={{
+                borderColor: "blue.500",
+                boxShadow: "0 0 0 1px blue.500",
+              }}
             />
           </InputGroup>
         </Flex>
@@ -125,7 +140,7 @@ const HomePage = () => {
           </VStack>
         ))}
       </SimpleGrid>
-    </Center>
+    </Flex>
   );
 };
 
